@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "esnext",
+    "module": "commonjs", // commonjs 또는 module 설정
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "esModuleInterop": true,
