@@ -2,6 +2,17 @@ import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
 
+import { getMonthlyData } from 'api/monthly';
+import {
+  deleteRecommendedSong,
+  getRecommendedSongList,
+  postRecommendedSong,
+  putRecommendedSong,
+  putRecommendedSongStatus,
+} from 'api/recommended';
+import { getLogin } from 'api/login';
+import { deleteExistingSong, postNewSongs, putExistingSong } from 'api/song';
+
 import { API_URLS } from 'utils/constants';
 
 const PORT = process.env.PORT || 8080;
@@ -21,17 +32,16 @@ function main() {
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
   });
-  app.get(API_URLS.MONTHLY, (req, res) => console.log(req, res));
-  app.get(API_URLS.LOGIN, (req, res) => console.log(req, res));
-  app.get(API_URLS.RECOMMENDED, (req, res) => console.log(req, res));
-  app.get(API_URLS.SONG, (req, res) => console.log(req, res));
-  app.post(API_URLS.RECOMMENDED, (req, res) => console.log(req, res));
-  app.post(API_URLS.SONG, (req, res) => console.log(req, res));
-  app.put(API_URLS.RECOMMENDED, (req, res) => console.log(req, res));
-  app.put(API_URLS.RECOMMENDED_STATUS, (req, res) => console.log(req, res));
-  app.put(API_URLS.SONG, (req, res) => console.log(req, res));
-  app.delete(API_URLS.SONG, (req, res) => console.log(req, res));
-  app.delete(API_URLS.RECOMMENDED, (req, res) => console.log(req, res));
+  app.get(API_URLS.MONTHLY, getMonthlyData);
+  app.get(API_URLS.LOGIN, getLogin);
+  app.get(API_URLS.RECOMMENDED, getRecommendedSongList);
+  app.post(API_URLS.RECOMMENDED, postRecommendedSong);
+  app.post(API_URLS.SONG, postNewSongs);
+  app.put(API_URLS.RECOMMENDED, putRecommendedSong);
+  app.put(API_URLS.RECOMMENDED_STATUS, putRecommendedSongStatus);
+  app.put(API_URLS.SONG, putExistingSong);
+  app.delete(API_URLS.SONG, deleteExistingSong);
+  app.delete(API_URLS.RECOMMENDED, deleteRecommendedSong);
 
   app.listen(PORT, () => console.log('listening on ' + PORT));
 }
